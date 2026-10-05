@@ -282,7 +282,9 @@ footer .wrap{padding-block:1.25rem;display:flex;flex-wrap:wrap;gap:.25rem 1.5rem
    mint for results. The accent shows in tags and lines. */
 :root{--sec:#BFDDF2}
 .pwrap{position:relative;justify-self:center;width:min(100%,22rem)}
-.pwrap .portrait{width:100%;position:relative}
+/* the portrait is a circle */
+.pwrap .portrait{width:100%;position:relative;aspect-ratio:1;border-radius:50%}
+.pwrap .portrait img{object-position:50% 22%}
 /* a baby blue petal behind the portrait: the logo's bloom, a circle with one sharp corner */
 .pwrap::before{content:"";position:absolute;width:112%;aspect-ratio:1;right:-13%;top:-8%;border-radius:50% 0 50% 50%;background:var(--accent)}
 @media (max-width:52rem){.pwrap{order:-1;width:min(70%,16rem);justify-self:start}}
