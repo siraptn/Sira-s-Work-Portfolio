@@ -301,12 +301,12 @@ footer .wrap{padding-block:1.25rem;display:flex;flex-wrap:wrap;gap:.25rem 1.5rem
 /* a baby blue petal behind the portrait: the logo's bloom, a circle with one sharp corner */
 .pwrap::before{content:"";position:absolute;width:112%;aspect-ratio:1;right:-13%;top:-8%;border-radius:50% 0 50% 50%;background:var(--accent)}
 @media (max-width:52rem){.pwrap{order:-1;width:min(70%,16rem);justify-self:start}}
-#ai,#media{--sec:#BFDDF2}
+#detail,#media{--sec:#BFDDF2}
 /* the AI section sits on baby blue with white cards; its label line turns white to show */
-#ai{--band:#BFDDF2}
-#ai details.fold>summary .label{border-bottom-color:#FFFFFF}
+#detail{--band:#BFDDF2}
+#detail details.fold>summary .label{border-bottom-color:#FFFFFF}
 /* in the blue section the ground is the accent, so card labels are plain label-teal text, not chips (set 25) */
-#ai .ai-cell .label{background:none;color:var(--band-label);padding:0;border-radius:0;letter-spacing:.14em}
+#detail .ai-cell .label{background:none;color:var(--band-label);padding:0;border-radius:0;letter-spacing:.14em}
 #journey,#background{--sec:#F7C9A8}
 #work{--sec:#BFE3CF}
 details.fold>summary .label{justify-self:start;padding-bottom:.55rem;border-bottom:3px solid var(--sec)}
@@ -402,6 +402,21 @@ details.edu .inner li.has-logo::before{content:none}
 .media b{line-height:1.45}
 .media small{margin-top:.2rem}
 @media (max-width:40rem){.media{--n:1;--peek:3rem}}
+/* AI and fintech in detail: one blue band with two views, built like Journey. A switch under the
+   heading picks the view; each view is a row of white cards that scrolls sideways. A desktop
+   shows three cards with the fourth peeking in, a tablet two, a phone one. */
+#detail .views{background:var(--band-card);border-color:transparent}
+#detail [role="tabpanel"] .sec-intro{margin:0 0 1.5rem}
+.views[hidden]~#fintech{margin-top:2.75rem}
+#detail .ai-grid{--g:1rem;--n:3;--peek:4rem;grid-template-columns:none;grid-auto-flow:column;
+  grid-auto-columns:max(16.5rem,calc((100% - var(--n) * var(--g) - var(--peek)) / var(--n)));gap:var(--g);
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:4px;
+  padding:4px 4px 1rem;margin-inline:-4px;scrollbar-width:thin;scrollbar-color:var(--band-card) transparent}
+#detail .ai-cell{scroll-snap-align:start}
+#detail .ai-grid:focus-visible{outline:2px solid var(--label);outline-offset:2px;border-radius:4px}
+@media (max-width:60rem){#detail .ai-grid{--n:2;--peek:3rem}}
+@media (max-width:36rem){#detail .ai-grid{--n:1;--peek:2.5rem}}
+.js #detail .ai-cell.rv{opacity:1;transform:none;transition:none}
 /* a card reached from a link stops clear of the page header */
 .ai-cell[id],details.edu[id]{scroll-margin-top:calc(var(--head-h,4.4rem) + 1.25rem)}
 /* cards in the scrolling row do not rise in one by one; the section brings them in together */
@@ -480,6 +495,7 @@ footer a:hover{color:var(--label)}
     <nav class="nav" aria-label="Sections">
       <a href="#journey">Journey</a>
       <a href="#ai">AI</a>
+      <a href="#fintech">Fintech</a>
       <a href="#work">Work</a>
       <a href="#media">Media</a>
       <a href="#background">Background</a>
@@ -498,7 +514,7 @@ footer a:hover{color:var(--label)}
           <p class="soft hello">Hello, I&rsquo;m Sira.</p>
           <h1>I take frontier tech <span class="mk">mainstream</span> in Southeast Asia.</h1>
         </div>
-        <p class="lead">12 years across digital ads, Web3 and AI, at Google, Velo Labs and Bitget. INSEAD MBA.</p>
+        <p class="lead">12 years across digital ads, Web3 and AI, at Google, Velo Labs and Bitget. Since 2021, most of that work has been in financial products: payments, exchanges and trading tools. INSEAD MBA.</p>
         <div class="bring-wrap">
           <p class="label">Four things I bring</p>
           <ul class="bring">
@@ -581,7 +597,7 @@ footer a:hover{color:var(--label)}
           <h3>Startups &amp; Global Exchange</h3>
           <p class="who">Moon Maker Protocol, Velo Labs, LIFE AI, Bitget</p>
           <div class="minis">
-            <details class="mini"><summary><span>What I brought<span class="n">4</span></span><span class="chev" aria-hidden="true"></span></summary><p class="chips"><span class="chip">Community building</span><span class="chip">DeFi go-to-market</span><span class="chip">Market expansion</span><span class="chip">AI product go-to-market</span></p></details>
+            <details class="mini"><summary><span>What I brought<span class="n">4</span></span><span class="chev" aria-hidden="true"></span></summary><p class="chips"><span class="chip">Community building</span><span class="chip">Financial products, on-chain and off</span><span class="chip">Market expansion</span><span class="chip">AI product go-to-market</span></p></details>
             <details class="mini"><summary><span>My impact<span class="n">3</span></span><span class="chev" aria-hidden="true"></span></summary><p class="chips"><span class="chip">37&times; community ROI</span><span class="chip">$70M peak TVL</span><span class="chip">20% of new app downloads</span></p></details>
           </div>
         </article>
@@ -645,13 +661,18 @@ footer a:hover{color:var(--label)}
     </div>
   </section>
 
-  <section id="ai" class="band">
+  <section id="detail" class="band">
     <div class="wrap">
       <details class="fold">
-        <summary><span class="label">Frontier 3 in detail &middot; AI and GenAI</span><h2>Taking AI products to market and into operations</h2><span class="chev" aria-hidden="true"></span></summary>
+        <summary><span class="label">Frontier and industry in detail</span><h2>Taking AI and financial products to market</h2><span class="chev" aria-hidden="true"></span></summary>
+      <div class="views" id="detail-views" role="tablist" aria-label="Show AI or fintech" hidden>
+        <button type="button" role="tab" id="tab-ai" aria-controls="ai" aria-selected="true">Frontier: AI</button>
+        <button type="button" role="tab" id="tab-fintech" aria-controls="fintech" aria-selected="false">Industry: Fintech</button>
+      </div>
+      <div id="ai" role="tabpanel" aria-labelledby="tab-ai">
         <p class="sec-intro">GenAI teams need people who can explain a product, win partners and get it adopted. This is where I have done that work.</p>
-      <div class="ai-grid">
-        <article class="ai-cell wide">
+      <div class="ai-grid" tabindex="0" role="group" aria-label="AI in detail. Scroll sideways for more.">
+        <article class="ai-cell">
           <p class="label">Hands-on &middot; built with Claude</p>
           <h3>This page and my brand pack</h3>
           <ul class="pts"><li>Vibecoded this page with Claude</li><li>Built my brand pack with Claude</li><li>The pack covers strategy, voice, colours, type and templates</li></ul>
@@ -687,6 +708,42 @@ footer a:hover{color:var(--label)}
           <ul class="pts"><li>AI Strategy for Startups and C-Suites</li><li>AI Entrepreneurship</li><li>Fintechs</li><li>Product Management in a Digital World</li></ul>
         </article>
       </div>
+      </div>
+      <div id="fintech" role="tabpanel" aria-labelledby="tab-fintech">
+        <p class="sec-intro">Since 2021 most of my work has been in financial products. Web3 and AI are the technologies; fintech is the industry.</p>
+      <div class="ai-grid" tabindex="0" role="group" aria-label="Fintech in detail. Scroll sideways for more.">
+        <article class="ai-cell">
+          <p class="label">Exchange</p>
+          <h3>Trading and compliance at Bitget</h3>
+          <ul class="pts"><li>Onboarded and retained API traders and market makers</li><li>Kept compliance across 3 regulatory frameworks: Thailand, Cambodia and Laos</li><li>Built multi-jurisdiction compliance models with business development</li></ul>
+        </article>
+        <article class="ai-cell">
+          <p class="label">Products</p>
+          <h3>DeFi products at Velo Labs</h3>
+          <ul class="pts"><li>Marketed exchange, remittance and payment products</li><li>For retail and institutional investors</li><li>Velo Labs is a cross-border DeFi settlement network, the DeFi arm of Lightnet</li><li>Onboarded 300+ launch traders for its exchange</li></ul>
+        </article>
+        <article class="ai-cell">
+          <p class="label">Token launches</p>
+          <h3>DeFi launchpad at Moon Maker Protocol</h3>
+          <ul class="pts"><li>Led 0-to-1 go-to-market for a DeFi launchpad</li><li>It reached $70M peak TVL</li><li>Raised $3.6M from 12,000+ investors across partner launches</li></ul>
+        </article>
+        <article class="ai-cell">
+          <p class="label">Payments research</p>
+          <h3>Mobile banking for Visa</h3>
+          <ul class="pts"><li>Built digital-readiness metrics across 7 APAC markets</li><li>Identified Visa&rsquo;s highest-ROI mobile banking functions</li><li>Done at ABN Impact</li></ul>
+        </article>
+        <article class="ai-cell">
+          <p class="label">Insurance</p>
+          <h3>Insurance brands at Ogilvy and Kantar</h3>
+          <ul class="pts"><li>Managed the client relationship and campaigns for Thai Life Insurance at Ogilvy</li><li>Identified growth opportunities for a challenger online insurance brand at Kantar</li></ul>
+        </article>
+        <article class="ai-cell">
+          <p class="label">Training</p>
+          <h3>Fintech study</h3>
+          <ul class="pts"><li>Wharton Executive Education: Fintech Revolution</li><li>INSEAD coursework: Fintechs</li><li>Guided research on eToro&rsquo;s growth strategy at INSEAD</li><li>Led INSEAD&rsquo;s Blockchain Fintech Web3 Club</li></ul>
+        </article>
+      </div>
+      </div>
       </details>
     </div>
   </section>
@@ -709,7 +766,7 @@ footer a:hover{color:var(--label)}
       <article class="job" id="bitget">
         <div class="job-meta">
           <div class="logos"><img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI0IDI0IiBjbGFzcz0id2ViM2ljb25zIj4KICAgIDxnIGNsaXAtcGF0aD0idXJsKCNiaXRnZXRfX2EpIj4KICAgICAgICA8cGF0aCBmaWxsPSIjMDBGMEZGIiBkPSJNMjQgMEgwdjI0aDI0eiIvPgogICAgICAgIDxwYXRoIGZpbGw9IiMwMDA0MEMiIGQ9Ik0xMS4yMyA5Ljc0MmgzLjc0OGwzLjgzNCA0LjA1Yy4yNS4yNjMuMjUuNjkuMDAzLjk1NkwxMy44OTggMjBoLTMuODZsMS4xNjctMS4yMDYgNC4yODUtNC41MjYtNC4yMy00LjUyNiIvPgogICAgICAgIDxwYXRoIGZpbGw9IiMwMDA0MEMiIGQ9Ik0xMi43NjkgMTQuMjU4SDkuMDIyTDUuMTg4IDEwLjIxYS43MDYuNzA2IDAgMCAxLS4wMDMtLjk1NkwxMC4xMDIgNGgzLjg2bC0xLjE2NyAxLjIwNkw4LjUxIDkuNzMybDQuMjMgNC41MjYiLz4KICAgIDwvZz4KICAgIDxkZWZzPgogICAgICAgIDxjbGlwUGF0aCBpZD0iYml0Z2V0X19hIj4KICAgICAgICAgICAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTAgMGgyNHYyNEgweiIvPgogICAgICAgIDwvY2xpcFBhdGg+CiAgICA8L2RlZnM+Cjwvc3ZnPgo=" alt="Bitget logo" width="48" height="48"></div>
-          <p class="label">Web3 and AI &middot; 2025 to present</p>
+          <p class="label">Fintech &middot; Global exchange &middot; 2025 to present</p>
           <p class="wtags"><span class="wtag">Frontier 2 &middot; Web3</span><span class="wtag">Frontier 3 &middot; AI</span></p>
           <h3>Bitget</h3>
         </div>
@@ -721,7 +778,7 @@ footer a:hover{color:var(--label)}
           <details class="more">
             <summary><span>What I worked on<span class="n">6</span></span><span class="chev" aria-hidden="true"></span></summary>
             <div class="inner">
-          <ul class="items"><li><span class="row"><span class="it"><strong>Growth and acquisition</strong></span></span></li><li><span class="row"><span class="it"><strong>Creators and community</strong></span></span></li><li><span class="row"><span class="it"><strong>AI products</strong></span></span></li><li><span class="row"><span class="it"><strong>Partnerships and business development</strong></span></span></li><li><span class="row"><span class="it"><strong>PR and media</strong></span></span></li><li><span class="row"><span class="it"><strong>Compliance</strong></span></span></li></ul>
+          <ul class="items"><li><span class="row"><span class="it"><strong>Growth and acquisition</strong></span></span></li><li><span class="row"><span class="it"><strong>Compliance across 3 regulatory frameworks: Thailand, Cambodia and Laos</strong></span></span></li><li><span class="row"><span class="it"><strong>Creators and community</strong></span></span></li><li><span class="row"><span class="it"><strong>AI products</strong></span></span></li><li><span class="row"><span class="it"><strong>Partnerships and business development</strong></span></span></li><li><span class="row"><span class="it"><strong>PR and media</strong></span></span></li></ul>
             </div>
           </details>
         </div>
@@ -749,12 +806,12 @@ footer a:hover{color:var(--label)}
       <article class="job" id="velo">
         <div class="job-meta">
           <div class="logos"><img class="logo" src="data:image/png;base64,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" alt="Velo Labs logo" width="48" height="48"></div>
-          <p class="label">Web3 &middot; 2021 to 2023</p>
+          <p class="label">Fintech &middot; Web3 &middot; 2021 to 2023</p>
           <p class="wtags"><span class="wtag">Frontier 2 &middot; Web3</span></p>
           <h3>Velo Labs</h3>
         </div>
         <div class="job-body">
-          <p class="line">Redefined DeFi with a focus on accessibility and community.</p>
+          <p class="line">Took DeFi exchange, remittance and payment products to retail and institutional investors.</p>
           <p class="markets"><b>Markets covered</b>Global, Thailand, South Korea, China, Vietnam, Indonesia</p>
           <p class="chips"><span class="chip">37&times; ROI</span><span class="chip">300+ launch traders</span><span class="chip">40-member team</span></p>
           <div class="skills"><b>Skills</b><p class="chips"><span class="chip">Product marketing</span><span class="chip">Community growth</span><span class="chip">Team leadership</span><span class="chip">Brand revamp</span><span class="chip">Trader education</span><span class="chip">Events and PR</span></p></div>
@@ -778,7 +835,7 @@ footer a:hover{color:var(--label)}
       <article class="job" id="launchpad">
         <div class="job-meta">
           <div class="logos"><img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAIAAABMXPacAAAq00lEQVR42u29eZydVZUu/Ky1937f9ww1JJWZkAQSEgIBmQVBmQRlEhEQ0YtDK2o722K32v1db3d/2Pf7Xdvb0u0Iithe6Ku20iiCNMqMMoVRQkhIyDxWpYZT57zvu/de6/5xToVoQ98ECIkftVO//OpXqTp1sp93rbXXs561Ntn9/wbja88tHt+CcQDGARhf4wCMAzC+xgEYB2B8jQMwDsD4GgdgHIDxNQ7AOADjaxyAcQDG1zgAL9ciIgAaozEGRIE4WhuJI0jBpGyErBDpOAC7Z4mIMSatVHxRKJQNNG+BoERQghLApAzQK/zG7KvHAkTElyUxa/CsMatXWs0WgcGJEAsYSkQK6DgAu2WFELIs6+7p4ej7Nz7THNxa6ZukoDIGJacgELG+0j7B8ISTXz1GEENQxeTJE4876tC+vp4Nz67NW6VNHTuroWRDRCAREI0DsFsAIKLS+4HNm4f6Ny5YMP/Ci05DbD27bE0MrWpXAgQNSsTjFrBbcWBn2ef5408uXbt+y0XvfOPbzjt2zdLVa1euSBIhW1OhVzISv+oAoPZfxC5Lt2wZuO3f76vUzOf+6qI5syY98MCS5ijZSl0lAtI5Je5md/TqswAAIC/W2IrhxBj76ANP3vObx/7kg2e/710nrVj6yIonl1QqMyP1RiPKo4gFS0JkQG34tuPRPi/ROAAvyg1RIpFVE6E066puGdx23XW/mLdw5jf+7hIby9vuXBJcna0qcpM4EziqEpsdTEhB8h8gGQdgF5aCFKSABJ8niXWZueWGuzdttl++/MIDj5x57/03DW8ZStws1SzyCDvT8Umdn91x68cBeDEMQGhjQASbJMELIic9U+67c+1Dy1d84VNnnHHaoU88/LuVS7e6Sm/kACjJdrfDY7v/MpyXXpUAkAJxzAJUoxIMm0oMzvR0P7V48eInH/sv559+0bknrFy7/PFHlyS1OeI9kSdDRKwCIobyWIjWcQB2/ShE7Ud4zJmQkWiUTODhrGviU79duX7NxrPOOuLCt76uv9G6/9bllZ5uNXkoAhGIDJQBAzBIxgF4UQBoBmVgeyxlgiUiaIPKtFad/eCDj/S3tp52+lFvPvUQhHD7nfcl1cwYWxaejQMYagALKCiOA7CL4VctpN55ftuPMBFArKYm3WXLUxVuQs/99y4VSt98/NzTTtx3U4N+c8/TaT2zLokBpBYwUAMIKLyUOPwqBIAAQB2g4DD2/La/SBxTdpLTiBdO7LQH7vrdfvv2HbKo54hjDlm7qfXIbx+rpBO9RE6UFKwZoOByHIBdD8JcgD0gAI+dalQplHY0WmGpupDUrErYdu99Dx37hpPmz8SZrz9o8X3rVyzfZmomaL/GULP7xKBqmi8FgFdzSVKfFxvt5Lec56FWm7RxQ+Ov/vKqkUGbsVx55Z/sP498a2uaTCRTb8lQ5NHxY+jLigkJwKyOhZmdL2Otq/vJJ5/pTc2JJy7MusyhR8776U9uLfJedt2l9MMFUh4H4OULDqSkDLUECyVjk6LlK/WJjz7wxKmnLJow2e0/o4+y2i03PppUuqg6qlKSpOMAvIzBQQFmZShrGxRj2aaN4XzVmhXnnf9aQuvYIw985KFVS556xlYUsJBkHICX0QgMqRkL1CqIkSUi2qzy9PKlc/ebdPQh863q4YfP+fH1N+dlopq9xDg6DsAfJGiufSISDkpeTFAOalTIANmzy1e9+4KTmEemTOkR4LZfr2fqVRPG4jn9kQFA2ua0diQG2qkp7W55CAEEIQgBpExgJQXp2OMftZOjCUhVA6XGmmzDioG5M6YecfR079cd9pqj7vjVyrUbRuEEagEmIqCTV+/8+99jAJDCqrCSwihYiIgioSAqAbubz8dESoYKi9wIsVQVWTRBbIugBAKUQARqY0NKbLchlrHs3bB5+K1vOxpOa2kyc1L9hz+5RWwXSxdCxRDAuXIQWMDSDvz1XpkHEARGiIRIwQALrCJTqUB397uiQJmnJJJRGKiFOsD8YX6gbQyIwAii7Cq17oceWX7jrx7PbE/u/emnH3TqKQf75lBi2bAR0bEfbtv23p2IKVHJtmQjrGAhBWkiUhXt0t2rVlIBK7JIlUCJkFFiKJEyiYE+P70skobcEBlY868//ZUHhwgy+NCHz07CtszkoFJZlXakO/ZuAARQNsoMDYijjr2RSJKoVjs85W7Ze2l7IDIOKjBQCiIFkbIyiX1eQQQBhqrOdgWYpNZ7xz2/e+CxFVniSh9PfN1+J55+6ODgGsOlUowdUg87rzHdcy5IQczEarUxfYKNrfUJGlUbOJRML7/PlxihaoxhZpLIoVFNgzY2Zi6vVyNJk6IwO+jz/26NRhUBPhgz0qAbbnzQsBX1XSkuufBYlSG2BUyHxiBh/iMAAICQ+la9Ku9915vOPOlgGV0hrTVdlYIovPxen9kwq2rw3hmt8WAx+PS8WcllH3/7gQdM9uU24sDGvMD+g1RVS+EiMmAn/Pr2pxol0sSohlPfcPjC+ZNarUEyoqQdavuPwgIQo6Vg/MD0nvJPLn7DZR8/f1LXaHNwGZMQmZfTB4lYawUQkaxaj2WeFqsvetOiv/z0OxbMqmi+QXUkSTn4XFVf6MRA5MGFaEi6pz711LbHH9tIZEM5NGNyeuabjo/5iEgEMQB+ITvamwBQYgKpgWfNy8bm0Nhw5KIZf/3/fPhNpx1Wtrb5MnfWqkIVIFKIkuB5PDShUylvm//2j7aPgxIUAJvgAwPWUrN/03779n32oxdd/JYTMtlGvt9Q01kJoVAJxPwCbzcql+ASrNFzntu77nwSIEiExree+/q0asm0y/RGdRcKxXtKHU0KgW1qEJbejPe1kYvhrbW6vuPts/eb3/vzny9e8+zWas+83HNkr0kDdiTNa8ZXhKMCShCwkFGwslf2UCUIQ0lhhKGsTMFYhASSpUQoNzu3/sy3HnD26Yt6RVvlxpa0UjtBXEVQGLWW7QtZQOB2JwEgMGokJPfdvyTgFE4mxohFiyYftKj+8JJBtvtq5Mg5odjJo9AejQFEStypahsQB++HY9l//Gsn//lnzjnlxDm+9SzTqAmC3GlRj5JGaqcLRmAURApqb5nSmFrKCGwgG9kGAULhUjgabY48O2uf5BMfPv+SC46vmG1lOQQO5FiIvUDBRJbAUP1PqNL2O1WBdemyZ9Zu6C+FrCh1WZxy8uHaHLJwEKukynFvd0EAI9YAq6YV3bZot4nNiRxpvTWysZpsfP8HTvz4R0+a1LVVioEa92TFviFWC8ulsZ5NJKPtlJUii5Ja0oSkoloRZJHTQA7ENSd+23Ibll10wUGf+eSZixb0NfoHqUyYHIE6WdMf5F/Pb7BMz2Gg1Xpt3YYtTy9bZQhtoznh2EONIZImc1TIzgeBPWYBpKSSKKxwjDYPphmoABnSLNWMy7Icefbwg+t/9bm3nX7ivnFklS1G0syqCUoibJRYiJSF4BnCYig6aAJNgQSq5Jg55P2rDppT+YvPvOWcN8+uuFXF8DNdjhNxL/ykv8A2aTtlV4aIBog2muXTy1YzIUosgEMPnrffrIkxbxiNu5TE2D3ke0gEmXExj97Z0SCeE5fVfc6kxsqUlIOX4VAM1NP0fe8+5tCFM3/0wztW9DdN31TD1XKkRa6i7cyfo0QisUys7GIMNlFrQqu5hV1+8XknnXzSwZXaYCjXGASTpPAlx5R2sR3PCDNpNEEpqkYhKNzSZVsAEKMoyr5ud9ABM1etXG2zrsiIInZvtgAFaQzwLSRp6bOsNpvMlJFRQ8amiWGtSewirVm2qfMjg0uOO7b3C1847Y0nz0RzlTTWdWWw6hkKSCRRErbMJJKPVm1M4lBr8JlFC2qf+tA55551tKUhKUYsYIiYWKEvpgNDmTvxSphZ2SnZ1esGCkA1GtIuS0cumheLYWtUNbAxe7cLUmVDkgSQ9WX1325YvGlztd61H5PJ84FohsS0lFTV+RL1anVwaE29a/T9l5z6Zx986/R62dzybErBQkAQqKukIeZAqGVMxTYXtrzjrKM+8f7TDl+QFsVawwXD+CJV6VbNlDjuupSKwKxEAEMUIcSYZPWt/SNFhHHGGiLg0EXTEgaJV4lsdnZj9xwdzYghZ2Otra9+ZuOTjzze3eXm7NvjbMPTNthcSRQW6nxgYhMlsvezp047+rBjnK0/tfTZCKbECEWJ0QDO2dFtmw/cb9oHLjnzlNfPy3Sdhi0CH6IwVVLXI5ICViHEqqIwEhDZ9t73wIoNmwrjagroC3DIVgwBIK9EgIPAcAA1Lrn4lO7MqHrDbrShN/x8caskWA5Q3jlOd891SaoYasayYNtrkt6tRfjH79zy8JK55533hhk9Q1pugx9NjIlRAjsvLphaaUZacUnX5OkXXLRw/3kT/uUnd67ZMNw1aaaUKqHpwqYLzpp/7llHODM4OroW8MakRpJq6iQWEluGjfeSVmtlGYki7QprKUQEiozI0BCJWIUaI6ExHKd1OUIE4ox9JqcVH3PDpltDuZcnYu04kFiyqlBGoCTtmXvbPZuWPPPLd56z4PijZlEcKltbrRVDGolJOFpDaVL4QQ75MUfOmDfvHT++4d67fvOkL+PC/aeef96ZRx/WN7JtucScOYnaJeIcxbyVGwYzALWJbRU5s+NdrLi1lexCaPPmxMwwqqYsBCAiVcSJk5IpU7vWDOSISjvt2/cUAErsYqtqLKoJLOlA/4ZKb19PdXqjP37j+3c88uTc884+ZdqEqc3GRksFG+/gyU9QXzFaGsRydEtXNXvvJYfPPRBbNq8787Rju1M7tHV1Qhm0KjDEzsemqRTE1SJP69mkZqvppeHSXDUXteb/dvZ/wehlLSkTUVEUZVECGQBRTQwmTeorm8tt0mUs71xBbE9mwmxcPfjSuZFvX3Xpxe88etumpzm2Mtel6QG/vnv9l/7pxjsf6jf1A8T0xcis0Yrh6KzCaXBowG+AX3X80VPPP/fg1K3JG8/2VJwJxkRnANKmSXJPYdRzdcKCp1fKFV+7YeWzg0maWRuwk9vzAivGQMQgCiFsB4aArq5ugKwxtNdXxEgkRpO7etlqrZw3h6/+h4uv+vZH+yY2hoeeikRu0n4b+uVrV9/0nWt/tWnIZl0zo6ReGi4dMbapMpwYSYmpVGohjgoVlCALLSVhIh8xxOlAodtMNhHp1Bt+ufgfr/rZo0u3kOsR4hgLevFjOUhE2tmv7sAcKRTAlCmTiYmNEdW9PgaQiGmIDmRZMxZN0u73X3TM64478Et/94Mf3vQ7X9aq1W7WvlvvemLp8mXnn/O61x45l2R9K25NRDNnWI2IdVSNmkosSXOKVoRhosuoFYNwrHZPXbGa/vUnP1v82NZ6dSrXejwZBUP5JfSeKhEZY0TEGHLu9zYwzSoaggIg2slke8+ScaLMFF2qzhK1imLerO5vfOMj//TlS2ZPHmoOLiOUtd4Z67faK75105XX3jMwWrfZFE76ipDl3igSVYYS1Klmwoi29FQMjLY43Qd2/k2/XPcPX7n5kUe2VifsWzpTkI9GAIYmu8LY/0fXadiYGEOlklWrWecwpQBgCOikYHu9BShINaVYZxLjKwAskhhLhb/0gmNOOnr/z//tD35643JKZiT1WdBJv7pr5RNPPHnx+Scfe8TBwFalhlAAN5Vbsc3QUFNR+AK9k+c9tbz83z++a+myIZhplZ6sFXLVptoiUlCtAO73Oc5dre6IqMQg9Xqlq0477D+stZ3z1k6/9J4j4wASC0lVKx01E0dDmnESffOAfSf96Ko/u+qK982eONQaeCr6IqnNGNaZV3zv1//0vX8fkD6tTA9U0QAXJI0jBttAIukkdC/48S3L/vsVP390SZlWZztjQkvZZ85WWb1FbuBZX1K1jVmhXris99ik2q7csSAAiChBCjbQna3o7TlZCkCIBAhFbxUAbNMyWXGG6hIiVN534dE33fj5i86f70dWG59HraFr/7sfXvfFv7vmt49t8dKXuj4bjSljZismmbFqU9fff/POf/7Rw4NFvWvypEZzbYjrHSsVlktnohr1VoMRJaVdchQ71toIaq0oWt0TjE1ZBEqkCABG8xGQgOwOKqO9OQa8MPnLRgBfxjB7xsTvff2TV3/9o9OywXLr2ipVMzulNVL/+teu/5ef3Lm5FX136rsnD8d9b77t2S//jx89+tDaWrWvloaRrQ939zbnzJ3i47BJoTFCDdRBHdTuugtStMujMKHwUEJRzJg+tUroHHjIKjA01Ggf8HYe2r0UABhVlIbzWDRiK7zngsNvvemLF731kMbGpVS2Utfn3Kxf3r78r7/yL3c8uu7prckVV93xg+sebIxMnjxxoVM7OrBq0cLqtd//9MXvOrlsbtGYG+tADuogKdS9iPKFkhAYSmwTFQXCgQfMcIBIOxk2AgwPN4msiihkJ7HdGydmiQixMgGIlQSkIRbYf3b3965876lnLPrS3163ftVIpWffrurCjf3rv371Q1n2ZHNA6l1zE9SGNm12ydAn//Tcyz579j69tTt+8wSnwRgJQQgWanZJObsDFyQdqYmSY0e+5UjnzuxuFzfajWZBMdDfIDUdbYr+8VpAZ3IbA0zEQDC2VClIBi992+G/uP6LF7390ObAilazVa3NMXqgzyen1V4iP7BhycEHdP/o+x//yuUX9VYSL5qkHEKLnAWZthQaFPFidEed2SgEgwADnTKpe+H8eQDYkIAMmZERbNo4DLbosNb6RwsACGpVE0UKJCALZjLqEEeKTfNn1775jXdf+d33zZg8MrJhSYXVimgc8cNPf/Yzb7r5558847Q5vhAjwTB1gr0QYMZ2vwAVz0lXdjb7kvawCFJK2PlWMWvGpPn7TRaAQKpswOvXD44Me+dSgYrGnWQj9kYXRErEDkAISpaUIFBArbguS4WPSvKu8w874ti5/+2L3/vJT+8H0oMX7Xf5f/3guafOVxnyPjiTFaXpbLAy4IAIKMiDWqB8l//jJEqiIFYi4rJZHPGa13Ql5CUyGxWAsH7dmoH+bUl9dktFRXdy0tNeCkCZx2YZe7uThghTNBRJmSiJAc6SYd8KzQP26br2qo9//423LVmy7hMfu2jOZJcXRerUJSwhJlUHwGnCzKReY6S2aoqgLLrLXJxADTSDpiHm7JonnDAXgIZIlkQC2K7ZODzaMt1dGWmTyIPSnTGwvQ4AVUDRauoHP/HlMy84+Z1vPc6jkHIwNgtUp3GSCYiQVK1TDQS99B3til4rRE5dGmJKAKyIDCaYmEiVBdCRNMmKwonUAlhpkHfZJ4pKpjJRlKLZMHmf1hFHz1GFJUsxKPkS2b2ProObFGKFaSQxPu5c9+ReFgMUzIgQcXbZys2XvudvP/KF7w6MIE2mczpFiAElREJkBAthiIRmDA0VsRyJIpvIpFAJIRUVH6MEcUniY3tAEAjbs7BdYuDavVRibSwa/a875pD9Zk4MMRJEAGOzQY9HHn2KUisIgMre36Dxgk+aQG3wFG11iu055DtXP3TqGV/48S8fySrV1CUxBoIwIkGhQirMMORIE6gHDRseYmpFUWsyJvbIQK6MIqRKEZ3d33UAQAolLSxajlunvfFI28nNVBQObtmy9StWbnEJRyqFaLdnwkSkqrsJg0C5GJSa5cWEWs+hy1Zll3zgqx/+8+9vGBxNjSujiWJFGDBQgiqEIRakQKlalkFS44wxX7/6oauv/lm9b1Iuyo7bJQDSFzUjmphJMych758zu/fUk48uVaAQiu0JWosfXDbc3zKJUXgFqdrdCEC7ItGeg7o7SDoGKwiwQNosnU2n2HTmld+5681v+fz1v3pYDY8WyEsCWY1tbVBUUfEmxHoRuxJbf2rVtgvf9Q+Xfe6KdVsbLXWRKKhIZ7gS7aoLGmu7CImL5ejGt5193JwpFYme22pSjqXijjvWkKkLiXApRDvfZcW7HiS1PQOYiFRld9iAQcbKhiJ4lLgVNYSY9vbOfWpZfsE7L//zv/xh/4hkmRnJVTgJQZQhhKAJcc3a2rf+192nnfNfr7/lUdc1ndPeQFZBStI+iZJSpxd1F54JApFJk9HR/mlTaxe//XiGGFYFiYoztHxF6+67lyW1viBBOQhBdp8L0hgT51yapmmqipfa0Ks7Uo2qUFUYNTbAoARvI9NPPMpqQlFNqwvT2sFf+/btZ5z7xf990+O1CgemABdISpUkNUuXDb7r3Vd+6jP/sqk/mTh9QYHUq1G4TqMAKxA7lJri9xMx+s8GUBIxMWss8/xNpxx96ILJUUvLURURgSm9555lmzY0mSpCUcm3u8p2FwBMXBalH23OmDZ18oQelbKj6X4R7oiEHJSjtOtanBIsE1TABIhn5AY5wSuJEsrgAnq7J8x+dvXIBz/85Y/8xZWr+1s2zeCqlNpv/eC+M8/7m5/e+LirzkxqM7YNF+BEyIwN4RANSuSEkwgLalfRnWibYfNKXjuzr3gs7op28q8YI3yM1Xp4z3tPJoCVY1TDAjal6o9/enNWyVRBatpC+53fg13OA9RlFClxaG7bfNj8/e++Z62kNTJZiEKIu+TryULKRnBFntphgYY0VbBqi6g0YE5SrVHZpYRgQmn7GQ7BNEpJ6jPzov6tq39782+W/+2XPjB10owrvnLXjT+9mbJq1lfPJUr0ZEwZI9iwCos4EWeqoHphJ6NiK2gEgeVqHro8aUya7BreG+JujkqkhKAUlbTNaqYyoRha8V8+cPDxr53R9D5BYmyiMpxS/e7H19z/8AOV2qwypjZ0BYKS7DzdZHfVYWiISZKxuLWrVh/32sMXzN/v4adWpl2JjvWY7zwEMU/TbGoR7Ec/8k2nDQtvVShqJLLpxNWrtxlbAxKVoKzKUYWYmIh9Ga2tu75k9apNl37gy931fbasLlz3JGNtXuTGmM4AMiKFAO3EgKLaH/3wpiwtCS2jQSmJqARUNwyUzk2VIiU1ZJgQoKRs2j0xrKLEWjam9aUfv/RCksAarHWqiKLG8rXX/Xq0yd09GasbyxfizstedtUClC1HieK9rdYWP/bohW8/6/Fl3w3FCJl05x0foETGcXfZaLKduPjhfg1Notie41kxZQz91fpUH5kIxNQh5MeO40QMMq2RVlqfFouRhoZKX7eIhOCt3bHNqN0i1nbuzpjuVasHmVppYprRtksoqiFo5pIulTb52gJk7ByprEqkjqg1vPpjn77gsP2m5L5RSSxEJcLa+tLVIz+/4bEknSZa8dEoEXFUCrSbACCQqESVNE1siM88vWpktHXGWSf8249vynonBjXtm0J24nhKKpGQu4QF1rluqk8UjQpiIi4abDWEzDobmRWexoQ321cMUqn2SYwQp4GEvUZpi8K3A0C/F+O58JpWpyHGSBoyAzJoT4Pw6mNMjAVUJSi3p4kySEmjEylHG284dtZH33+SBHUkqqVGJUqJzD9fc9e6NfnEqfs2cyJroW0/HHe+LL/LQZggROpFPHHS0/Wj63564flHHTC7V1oNANH7nU7lovK2SAMRjcC+CC0vZZC8lGZBSeBqAQ5Q0TCGWHuoQ3tXRRFDiNETqCsiiSGI6nbJ1HNmNjYcVEiVrY/Oo1agLgRBEPhILbicbS40CBoyCCwASNiQqlWfyGi3bV3+xUt6uxIIjEmgiBrZ0lPLt/zgh7e7nhmtYJWdIIKCkmxvztxNiZgqSYRGMurc5nWb7r334T///DvL4WFjWEWSxEF2wgBJhRrgJpFXeEKAeqAA8gDvESKHyKWQB0UCWC2J65gsReKoKMACiEokNu0O0x0BIBArs7bJ5CisnsSDozLggRzICQUhZ87BOSgnyNioDVErnBat1rrLPnX2CcfOLktvLBESYuPJFKCvfuOW1asaXKl4ROEQqVQKhMiK3SpN1M7EX+IQ1U2sX3P1TfNmTfrYpy8qNg+n1UqIUXdugJHCQBLSxEhqQ+qiSQKSGMEh2lxsLlwIF0oBSuhYgAEBFEA5uADloBwkL1zY4U7yzl64EOOjiUqSBCTBuMg2GhYLddAkIiG0pwwQKCYVjG5adtZZR/zZJ08v/ahL2rbIpVi2yZ0PrfrBD+9LJ+1TaktMGU0hXCiXgKCdd+xk1rnLDRqdFycwscbMUMiHVy5f8/9e/p57F29Ys2xlWu1SZkVHy83E+nuXHmwf+c4Kq5qSZCyZEWsEVsVAA4uyAKH97BOIYEgZsACBPNiDQnv09lj+pM97YiA1IAEF5XZJi9qFkjQKK7MaUgtYwKk6UscKBQWCScgPrT/00H3++crP1BNjbUlEgIuiwtSCfuzP/uey5WpqEwNGQQKKoE7NE2DSnbWBXc4DSInbITEqKZPtoor79Z0bfnb9nT/77nlvPGPFinXI+iaNlKsT66lhHPcWFkoeFDpPh6TQCkDMDUBAuZhC26VvAHCkauJ2C2q7U1USoBjjZmynxLi9WvKCZayOZI1lrCdVPeALQ+0+Te70dispA1y4avShyyVxcOOsvto1f3/ZzAmVEBoUrEqiHEZDzCrpt7590+23rat2He7LaIzFjvau3JFK7+R+2v3/5sXLR5i9D1mahsLXdfU9v/giudrZb//Sys0h7Z1eNPKMQcYV4kABXAKxA4BUAIJptMfW7JCcvVLCCyJSEEVAWAFtd++ZQmyaJWZ0a7dpXPPtz55++qyy5V3Fo2RQUkRNM3P342vPPvtzhc40ldneN5VG99jk3BijczYEbytuNEx/70eu7ZvVfeW3L5nas8ENjtQxPY9ZwbF9UeCYJERBHtwCt3aYdUev8B2CRoUoQlngAiWeXWGSkjjNLPltjC1f/eoHTz99VvBiE0dajew9cuN407b4F5d9rwgTrKuFYgjsX+o7eYlNei5JfFECamzv2lVbVm18+rOXnnPUkfNv+dntWwbzdML0shXZGtVI22fotOfhUXzlL27cIUGLIBIyCqvtexhITGpicyDTwW9+7eMXveWQEFrOKchIJOUoYLXuc5+//mc/f7zeMyePChSqAbTnxlYSkcTIxhAbH/P6tImL73m0q16/+G3HHXPCwtvvvW3zeslq+4KHmCMTNMT2LLwxz0N7BgMCOgHZEphV2EiaRD+yYXav++Y/furtZy4owqjjUZCoJkrc8FpJ0n+68rav/M+fV+pzAqoRglQUgWD2pAWMlWiUs1A0Bytu3ztveWS/hbPPOGn+cace+diDK1YtX5d059E3yViw7UwrJ7xcd7C8yMJne0a0GFJUHFuMtobXLFw47cp/+NgZJ84qipA6MEPVKpIyapLY625YfNlnv+GyGeR6ixiVJaIkYtK94BIfIqIYjRhnKtElN/7i1kOOP/DERbNOOfWo/i3PLH78sUpPFylJIEK6gz5Q95QDEhZSS0oOoHI4H1p31hsXXfOtTx+xYGIIgZUMLGIKcq0y1lJ7673rPvThr4eYucrE0Twny0JRd6nTdbcCAMD61EVH1VaBRjS9v7jhicMPX3D0wZWzzjko1Kfdc/v9RR4q1YlR3PbrbxQRqvRK3ZypUOr8XlVWqElN4hsjSWx89hPnXfE/3jOp7mIcdVaYUkSCkKimqb3tt/e+/4PfGBjsSbK6iKhB5KisAPPOi0B3NwAKUZaoJFwhSXyUm2++df5RB+47s+eUo6a84cTDlj66ctXy0QS9BAvrVRtkyTgbQwBxZ0QqDKsJRpXb+YaBWlZrJDHilFRZnjs0jX2wOiMpq2M17ZfafiYn8uAopEoCJjCIFeyszzKm5qZlRxzU9c0rPnLp+442Jle0DHMIUdCK7EtG4tytd67+0w99c91AYmsTAuCDhzUKGZOqYK+5xMdGNaKSUsygZF1oxJHrb7xjn/3mHH3AxH2mTXvrWcd11cxjjz02PLw5S1JDDqYqJRTMzKLto1GIJigruK3H79BppCCoGhEC/gMCpMzanj0s7alNY5+zSgY4VWNg2y9ZTROR4EfWdNttn/jomV/7ynsPPXhKjIEogsFaiUoBQYzJTPWHNy/+0J9+fdtgD9d6C/UKwNrt9T/Cy3D788s4K0I7FXV1qqRKrFqG8tZfPjQhmXXkkTNNhV9//OzT3rxgaGT9M0+sLxopIc1sGr0HQ40Il2JLNeG58VQUlSIoqCnUlO0OC1LzBx9KIiZX9sqxndRq+3ovyTT2QTOj1ipSJqO+OTxs/Naz3zL9iq9+7N0XHOsYEDVsSR1TopAQ1NpaapJv/eDuj33yHwPVuFbzsrtuGX75AOgk/U6Fnc3Uq0sy66rSSm++4bHh1sjrTjjI67Zpk6vvOPuk1x+7oBgaeebZFSMDa7O6IfJq2/dJGcBBM4iFMsi003olKClrwkgJTMpE3C7mEgxIxERtSz/RBsmyOEKqcJYltQHFYD68NuXGqcfP//J/f9+nPn7utL6kaA5nCawBIsiyKLyPWZbkhX7uL6+//P/7V5NMdZXeRt4KIEO7Rcb5kqiIP6gwAgpNISnUMpEiikZDvurCYP/yk06Z+/df+sgRB0waLaSWMoA7Hlx1zf/65U23/GbzQBDuSWpTlLtErRSerQEkimdDqlElEqkRY8Dt8YhQBYHJqIpYFlaNILBVJhiKsOyiFmpGy9Y2aW2dPDk9/dQj3nPxqSe94QAH5DGwRMsBWioAsqUagatZ98RTGz5z2fd+fefqSu8sSdJCmtGWpIaF924Atot62qTxGOvJZhR2c8V2D63tn7PvPpd98sw/ec8RjotGa2t3fYrALX12yy9uefjmWx5f/Mjmwc0lVSZYY5wzxlovQmSCqgDWWMRcYwki6vD+ZAwTcbvjwhA7YzgqSYiFb46MKg91Txo8ZOGss8447ow3H3/g3MkZ4GNOIENpJ35S8L4olSl1Hua66+7+0uXXbtmita65zdIFhrclTM4RrHs7ADx2N90Oh2Ml5Za6hray3srMZv+Ib204402zvvhXbzvqsFlFbIRoXFJNgOEcTy7ZdP9vV95++wOPLnl20+ZGXgbjUjaVQI7ZWZdaS1DpNMupSowhRhCJlmoEMYaRAajv7qr11tyihfNPOWXRMa+b9ZrXzO+2KIEQSqZgjbAwUOXO7FghyyDc98S6y//+ml/c+JRN+urdk5pNYZuFGMGiFNo08F4OQPvBD6DYcUcd3scAKVNCQZ2GjPMi35ilxYfff84nPnjalClVHzSGoEAla5MTZs3m8PiSlUuWPvPkki1Llq4aGAqDQ2G0WY62oo71vhGzUQU0qdRsJe+dGKb1dc/bb58D505duP+01x79mmlTsnYrXrPlmRFFnHNsSKBMCm2wWuYKwOs2tr72ndu++893btrcSntniTOiOaQFjcxM0ZAaISjpXm8BYKB960TcoSybSkwBIYqWIiRYFh9CMbT1oAOqH3jfuRdeeMLMSVYB74ejDDmnhme25+0oMFyg8HHL1rBtcGRg60ieF8GHsiyNNVmSVqrVnp6eelcyeaqb0GuzMV2GAiqIMVC7s9SwIoqGtvMSVdjUwa4d8D/+0UNXXfPvv1uyOZ0wDa4ikaLPkYBQMKmKshqI0T8GAP7z4+nvJ+1ElkjykeBH58zqfve7Xn/BuccvmNNlgVIb6lMJZAwpC7N1ZudsX1XavUEgNm2luyrEh2DIEBkffDWzgADp71YN/eu/3XPttfc+vXyUswm2UinRUvIslvUVZaheAQBeEBfy1qVGwnA5vH7mzK5T33jY2acfcfwJh06uEwM5IB3RYiQEJn2e+SPU/hMJ2y9FZYAVrMKCUEoegqlm3Q4EYOuIPHj/lht+9qub77ht9aqBrLYPmz5PWSCJXIIDi6VXCQAEw1rX4IlCkiHkg62RLdVqOnf/KcecMPOss163aOHc6ROT2nOG46OGNn30H4Q/AQgAEzmQI1gms31oWA5sGQoPPrT09rtW3HbH0mVLt+bNZqUaurr6Wrkh01UIRSqES2VvOlTVqwAABYgsGxt8SYYsJDEcfKvIWyJbTar7TJt01GEHHHfkAXNnTTpw3uzZM3urO31lXavA6tVDK1etefjJLb+9/9Enn167eu1gGQxqE8lWDCdJGTQQOAFsZBEqhQvl8GoCgDRyCYDAQOcSKSJiIqUsRtFyVMtR5MOVipkxdcLkCdWp07snT+mbNnXalKnVCb0VlyQdWyApitjfXwz0Nwb6h9ev27h+/bZNG4aHhsNwM1FDNnNJd+Y5BvXKAjUu72l3CbRVEEpBuQQJdbRfr4YYQKpUtrWe22m1tshEpYvUMEVL0VBQ8RJaEkMsyxgjOmkw78DNBFCEAu1WDbJpVnPWKCpKfcaR16KIo7BR2YM91LLvJRDaMkJq6wkFpK/w4489OraSbKx2Cmog7DDEjRBAXqClRmaCsbA1JTh1KYwCTO1A0FEZqQpUFKra0QRGVWUwsZfhGAMxG+tULCQjbU+fFCIBAhDHTpi0+y4P2hsBIKVOZWaHYNomMYnK9lwABeIY70OihaItHSRqI7B9+ry2v6WjCFQFa1BVbYHAjkmMiLJaUmoTyt62AAHJmOh6u/IarxYAlDQa/7zHI20ncM8p3miHM09Auw13u/Jsh8GFO3ze/nfe/hWiAArbxdLmuVERzwkDdlOq9X9NX//4FhH+f7NezVeajwMwvsYBGAdgHIDxNQ7AOADjaxyAcQDG1zgA4wCMr1d8/R+nv73L4rR02wAAAABJRU5ErkJggg==" alt="Moon Maker Protocol logo" width="48" height="48"></div>
-          <p class="label">Web3 &middot; 2021</p>
+          <p class="label">DeFi &middot; 2021</p>
           <p class="wtags"><span class="wtag">Frontier 2 &middot; Web3</span></p>
           <h3>Moon Maker Protocol</h3>
         </div>
@@ -982,7 +1039,7 @@ footer a:hover{color:var(--label)}
         <div class="col">
           <h3>Professional networks and associations</h3>
           <details class="edu">
-            <summary class="entry-head"><div><h4>Web3</h4></div><span class="chev" aria-hidden="true"></span></summary>
+            <summary class="entry-head"><div><h4>Fintech and Web3</h4></div><span class="chev" aria-hidden="true"></span></summary>
             <div class="inner">
             <ul>
               <li>Web3 Women in Thailand</li>
@@ -1109,38 +1166,54 @@ footer a:hover{color:var(--label)}
 
 <script>
 (function () {
-  // One section, two views. Without this script both views simply show, one after the other.
-  var bar = document.getElementById('journey-views');
-  if (!bar) return;
-  var tabs = Array.prototype.slice.call(bar.querySelectorAll('[role="tab"]'));
-  var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
-  function show(i, focus) {
-    tabs.forEach(function (t, k) {
-      var on = k === i;
-      t.setAttribute('aria-selected', String(on));
-      t.tabIndex = on ? 0 : -1;
-      panels[k].hidden = !on;
+  // A section with two views has a switch above them: Journey (By year, By frontier) and the
+  // detail section (Frontier: AI, Industry: Fintech). Without this script the switch stays hidden
+  // and both views simply show, one after the other.
+  var showFor = {};   // view id -> a function that shows that view
+  Array.prototype.slice.call(document.querySelectorAll('.views[role="tablist"]')).forEach(function (bar) {
+    var tabs = Array.prototype.slice.call(bar.querySelectorAll('[role="tab"]'));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    function show(i, focus) {
+      tabs.forEach(function (t, k) {
+        var on = k === i;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[k].hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+    }
+    tabs.forEach(function (t, i) {
+      showFor[panels[i].id] = function () { show(i); };
+      t.addEventListener('click', function () { show(i); });
+      t.addEventListener('keydown', function (e) {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        show((i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length, true);
+      });
     });
-    if (focus) tabs[i].focus();
-  }
-  tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { show(i); });
-    t.addEventListener('keydown', function (e) {
-      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-      e.preventDefault();
-      show((i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length, true);
-    });
+    bar.hidden = false;
+    show(0);
   });
-  bar.hidden = false;
-  show(0);
+  // A link to a view, or to something inside one, switches to that view before the page moves.
+  function viewOf(t) { var p = t && t.closest('[role="tabpanel"]'); if (p && showFor[p.id]) showFor[p.id](); }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (a) viewOf(document.getElementById(a.getAttribute('href').slice(1)));
+  });
+  if (location.hash.length > 1) viewOf(document.getElementById(location.hash.slice(1)));
 })();
 (function () {
   // Menu and in-page links land on a block's resting place. A block that is still waiting to
   // arrive sits away from its place, so the browser's own jump would stop short of or past it.
   function restTop(el) { var y = 0; while (el) { y += el.offsetTop; el = el.offsetParent; } return y; }
   function go(t) {
-    var margin = parseFloat(getComputedStyle(t).scrollMarginTop) || 0;
-    window.scrollTo(0, Math.max(0, restTop(t) - margin));
+    // a link to one of a section's views lands on the section's heading, with that view showing
+    var spot = t.getAttribute('role') === 'tabpanel' ? (t.closest('section') || t) : t;
+    // a card in a sideways row: bring it to the row's left edge
+    var row = t.parentElement && t.parentElement.closest('.eras,.ai-grid,.media');
+    if (row && row.scrollWidth > row.clientWidth) row.scrollLeft += t.getBoundingClientRect().left - row.getBoundingClientRect().left - 4;
+    var margin = parseFloat(getComputedStyle(spot).scrollMarginTop) || 0;
+    window.scrollTo(0, Math.max(0, restTop(spot) - margin));
   }
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
