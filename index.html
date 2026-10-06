@@ -466,17 +466,20 @@ button.btn { width: 100%; border: 0; font: inherit; font-weight: 600; text-align
 
 <script>
 (function () {
-  // Each button opens the panel right under it.
+  // Each button opens the panel right under it. Only one panel is open at a time.
+  var panels = [];
   function panel(buttonId, panelId, onFirstOpen) {
     var btn = document.getElementById(buttonId);
     var box = document.getElementById(panelId);
     if (!btn || !box) return;
     var opened = false;
     function show(open) {
+      if (open) panels.forEach(function (other) { if (other !== show) other(false); });
       box.hidden = !open;
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (open && !opened) { opened = true; if (onFirstOpen) onFirstOpen(box); }
     }
+    panels.push(show);
     btn.addEventListener('click', function () { show(box.hidden); });
     if (location.hash === '#' + panelId) show(true);
   }
