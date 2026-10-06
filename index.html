@@ -20,9 +20,10 @@
 <style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@1&family=Noto+Sans+Thai:wght@400;600&display=swap">
 <style>
-/* Layout: one centred column at every width. A baby blue wave runs edge to edge
-   behind a circle portrait with the coral ring; below it the line, four buttons,
-   then every channel as a labelled tile, and the primary logo to sign off.
+/* Layout: phone first, sized to fit one 9:16 screen without scrolling. One narrow
+   centred column at every width: a baby blue wave behind a circle portrait with the
+   coral ring, the name, four buttons, one row of channel icons, and the logo.
+   Portrait, buttons and gaps grow with the screen height (--s) so taller phones fill out.
    Single light look by choice: the @siraptn link page is always built on white. */
 :root {
   color-scheme: light;
@@ -37,7 +38,13 @@
   --photo: #DDE3E6;
   --sans: 'Plus Jakarta Sans', 'Noto Sans Thai', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --serif: 'Instrument Serif', 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  --vh: 1vh;
+  --s: clamp(0px, calc(100 * var(--vh) - 560px), 240px);  /* screen height beyond 560px */
+  --portrait: calc(108px + 0.3 * var(--s));
+  --btn: calc(46px + 0.04 * var(--s));
+  --gap: calc(14px + 0.05 * var(--s));
 }
+@supports (height: 1svh) { :root { --vh: 1svh; } }
 *, *::before, *::after { box-sizing: border-box; }
 body {
   margin: 0;
@@ -48,6 +55,9 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100 * var(--vh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
 }
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 3px solid var(--label); outline-offset: 3px; }
@@ -55,15 +65,16 @@ a { color: inherit; text-decoration: none; }
 /* Wave and portrait: full width, outside the page gutter */
 .top {
   position: relative;
-  height: 250px;
-  margin-top: 8px;
+  flex: none;
+  height: calc(var(--portrait) + 26px);
+  margin-top: 6px;
 }
 .wave {
   position: absolute;
   left: 0;
-  top: 80px;
+  top: 30%;
   width: 100%;
-  height: 170px;
+  height: 70%;
   display: block;
 }
 .wave .band { fill: var(--blue); }
@@ -71,13 +82,13 @@ a { color: inherit; text-decoration: none; }
 .portrait {
   position: absolute;
   left: 50%;
-  top: 20px;
-  width: 196px;
-  height: 196px;
+  top: 6px;
+  width: var(--portrait);
+  height: var(--portrait);
   transform: translateX(-50%);
   border-radius: 999px;
   border: 3px solid var(--coral);
-  padding: 5px;
+  padding: 4px;
   background: var(--ground);
 }
 .portrait img {
@@ -91,39 +102,32 @@ a { color: inherit; text-decoration: none; }
 }
 
 .page {
-  max-width: 620px;
+  flex: 1;
+  width: 100%;
+  max-width: 430px;
   margin-inline: auto;
   padding-inline: 20px;
-  padding-block: 22px 32px;
+  padding-block: 12px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  justify-content: space-between;
+  gap: var(--gap);
   text-align: center;
 }
 
-.intro { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.name { margin: 0; color: var(--ink); text-wrap: balance; }
-.nick { white-space: nowrap; }
-.line { margin: 0; text-wrap: balance; }
-.where { margin: 0; }
-.name { font-weight: 700; font-size: 38px; line-height: 1.05; letter-spacing: -0.03em; }
-.nick { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: 0; }
-.line { font-size: 17px; font-weight: 600; line-height: 1.3; }
-.where { font-size: 14px; color: var(--support); }
-@media (min-width: 900px) {
-  .intro { gap: 12px; }
-  .name { font-size: 58px; }
-  .line { font-size: 21px; }
-  .where { font-size: 16px; }
-}
+.intro { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.name { margin: 0; color: var(--ink); font-weight: 700; font-size: clamp(30px, 8.8vw, 36px); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.nick { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: 0; white-space: nowrap; }
+.line { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.3; text-wrap: balance; }
+.where { margin: 0; font-size: 13.5px; color: var(--support); }
 
 /* Buttons */
 .links {
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
+  gap: 8px;
   text-align: left;
 }
 .btn {
@@ -131,11 +135,12 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 56px;
-  padding: 0 20px 0 24px;
+  min-height: var(--btn);
+  padding: 0 18px 0 22px;
   border-radius: 999px;
   background: var(--blue);
   color: var(--ink);
+  font-size: 15.5px;
   font-weight: 600;
   transition: background-color .15s ease;
 }
@@ -144,7 +149,7 @@ a { color: inherit; text-decoration: none; }
 .btn.main { background: var(--ink); color: #FFFFFF; }
 .btn.main:hover { background: var(--label); }
 
-button.btn { width: 100%; border: 0; font: inherit; font-weight: 600; text-align: left; cursor: pointer; }
+button.btn { width: 100%; border: 0; font: inherit; font-size: 15.5px; font-weight: 600; text-align: left; cursor: pointer; }
 .btn .chev { transition: transform .15s ease; }
 .btn[aria-expanded="true"] .chev { transform: rotate(180deg); }
 
@@ -155,6 +160,7 @@ button.btn { width: 100%; border: 0; font: inherit; font-weight: 600; text-align
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-block: 4px;
   padding: 22px 20px;
   border: 1.5px solid var(--blue);
   border-radius: 28px;
@@ -284,41 +290,21 @@ button.btn { width: 100%; border: 0; font: inherit; font-weight: 600; text-align
 .talk.more:hover .frame { background: var(--blue-tint); }
 .talk.more svg { flex: none; width: 18px; height: 18px; }
 
-/* Channels */
-.channels { width: 100%; display: flex; flex-direction: column; gap: 14px; }
-.channels h2 {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--label);
-}
+/* Channels: one row of icons */
+.channels { width: 100%; }
+.channels h2 { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .channel-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
 }
 .channel {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 60px;
-  padding: 9px 12px 9px 9px;
-  border: 1.5px solid var(--blue);
-  border-radius: 999px;
-  background: var(--ground);
-  transition: background-color .15s ease;
-}
-.channel:hover { background: var(--blue-tint); }
-.ico {
-  flex: none;
-  width: 40px;
-  height: 40px;
+  width: clamp(38px, 11.6vw, 44px);
+  aspect-ratio: 1;
   border-radius: 999px;
   background: var(--blue);
   color: var(--ink);
@@ -327,28 +313,15 @@ button.btn { width: 100%; border: 0; font: inherit; font-weight: 600; text-align
   justify-content: center;
   font-size: 13px;
   font-weight: 700;
+  transition: background-color .15s ease;
 }
-.ico svg { width: 18px; height: 18px; display: block; }
-.ico svg + .alt { display: none; }  /* letters show only if the icons cannot load */
-.channel-text { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
-.channel-name { font-size: 14px; font-weight: 600; }
-.channel-handle { font-size: 13px; color: var(--support); overflow-wrap: anywhere; }
+.channel:hover { background: var(--blue-deep); }
+.channel svg { width: 19px; height: 19px; display: block; }
+.channel svg + .alt { display: none; }  /* letters show only if the icons cannot load */
 
-.foot { display: flex; justify-content: center; padding-top: 4px; }
-.logo { display: block; flex: none; width: 152px; height: auto; }
+.foot { display: flex; justify-content: center; }
+.logo { display: block; flex: none; width: 124px; height: auto; }
 
-@media (min-width: 900px) {
-  .links > .card, .links > .talks { order: 1; }  /* panels open below the four buttons */
-  .card { padding: 28px; }
-  .top { height: 300px; margin-top: 40px; }
-  .wave { top: 60px; height: 240px; }
-  .wave .stroke { stroke-width: 2.5; }
-  .portrait { top: 0; width: 260px; height: 260px; border-width: 4px; padding: 6px; }
-  .page { padding-block: 28px 48px; gap: 32px; }
-  .links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .btn { min-height: 58px; padding: 0 22px 0 26px; }
-  .logo { width: 176px; }
-}
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
@@ -432,30 +405,12 @@ button.btn { width: 100%; border: 0; font: inherit; font-weight: 600; text-align
   <section class="channels" aria-labelledby="channels-title">
     <h2 id="channels-title">All my channels</h2>
     <ul class="channel-list">
-      <li><a class="channel" href="https://www.linkedin.com/in/siraptn/" target="_blank" rel="noopener">
-        <span class="ico" aria-hidden="true"><i class="fa-brands fa-linkedin-in"></i><span class="alt">in</span></span>
-        <span class="channel-text"><span class="channel-name">LinkedIn</span><span class="channel-handle">in/siraptn</span></span>
-      </a></li>
-      <li><a class="channel" href="https://x.com/siraptn" target="_blank" rel="noopener">
-        <span class="ico" aria-hidden="true"><i class="fa-brands fa-x-twitter"></i><span class="alt">X</span></span>
-        <span class="channel-text"><span class="channel-name">X</span><span class="channel-handle">@siraptn</span></span>
-      </a></li>
-      <li><a class="channel" href="https://www.instagram.com/siraptn/" target="_blank" rel="noopener">
-        <span class="ico" aria-hidden="true"><i class="fa-brands fa-instagram"></i><span class="alt">IG</span></span>
-        <span class="channel-text"><span class="channel-name">Instagram</span><span class="channel-handle">@siraptn</span></span>
-      </a></li>
-      <li><a class="channel" href="https://www.instagram.com/jaaeiarsira/" target="_blank" rel="noopener">
-        <span class="ico" aria-hidden="true"><i class="fa-brands fa-instagram"></i><span class="alt">IG</span></span>
-        <span class="channel-text"><span class="channel-name">Instagram</span><span class="channel-handle">@jaaeiarsira</span></span>
-      </a></li>
-      <li><a class="channel" href="https://www.tiktok.com/@siraptn" target="_blank" rel="noopener">
-        <span class="ico" aria-hidden="true"><i class="fa-brands fa-tiktok"></i><span class="alt">TT</span></span>
-        <span class="channel-text"><span class="channel-name">TikTok</span><span class="channel-handle">@siraptn</span></span>
-      </a></li>
-      <li><a class="channel" href="https://github.com/siraptn" target="_blank" rel="noopener">
-        <span class="ico" aria-hidden="true"><i class="fa-brands fa-github"></i><span class="alt">GH</span></span>
-        <span class="channel-text"><span class="channel-name">GitHub</span><span class="channel-handle">siraptn</span></span>
-      </a></li>
+      <li><a class="channel" href="https://www.linkedin.com/in/siraptn/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i><span class="alt" aria-hidden="true">in</span></a></li>
+      <li><a class="channel" href="https://x.com/siraptn" target="_blank" rel="noopener" aria-label="X @siraptn" title="X @siraptn"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i><span class="alt" aria-hidden="true">X</span></a></li>
+      <li><a class="channel" href="https://www.instagram.com/siraptn/" target="_blank" rel="noopener" aria-label="Instagram @siraptn" title="Instagram @siraptn"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="alt" aria-hidden="true">IG</span></a></li>
+      <li><a class="channel" href="https://www.instagram.com/jaaeiarsira/" target="_blank" rel="noopener" aria-label="Instagram @jaaeiarsira" title="Instagram @jaaeiarsira"><i class="fa-brands fa-instagram" aria-hidden="true"></i><span class="alt" aria-hidden="true">IG</span></a></li>
+      <li><a class="channel" href="https://www.tiktok.com/@siraptn" target="_blank" rel="noopener" aria-label="TikTok @siraptn" title="TikTok @siraptn"><i class="fa-brands fa-tiktok" aria-hidden="true"></i><span class="alt" aria-hidden="true">TT</span></a></li>
+      <li><a class="channel" href="https://github.com/siraptn" target="_blank" rel="noopener" aria-label="GitHub siraptn" title="GitHub siraptn"><i class="fa-brands fa-github" aria-hidden="true"></i><span class="alt" aria-hidden="true">GH</span></a></li>
     </ul>
   </section>
 
