@@ -39,6 +39,7 @@
   --sans: 'Plus Jakarta Sans', 'Noto Sans Thai', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --serif: 'Instrument Serif', 'DM Serif Display', Georgia, 'Times New Roman', serif;
   --vh: 1vh;
+  --vw: 1vw;
   --s: clamp(0px, calc(100 * var(--vh) - 560px), 240px);  /* screen height beyond 560px */
   --portrait: calc(108px + 0.3 * var(--s));
   --btn: calc(46px + 0.04 * var(--s));
@@ -57,7 +58,7 @@ body {
   overflow-x: clip;
   display: flex;
   flex-direction: column;
-  min-height: calc(100 * var(--vh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  min-height: min(calc(100 * var(--vh) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)), 880px);
 }
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 3px solid var(--label); outline-offset: 3px; }
@@ -117,7 +118,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .intro { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-.name { margin: 0; color: var(--ink); font-weight: 700; font-size: clamp(30px, 8.8vw, 36px); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.name { margin: 0; color: var(--ink); font-weight: 700; font-size: clamp(30px, calc(8.8 * var(--vw)), 36px); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
 .nick { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.12em; letter-spacing: 0; white-space: nowrap; }
 .line { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.3; text-wrap: balance; }
 .where { margin: 0; font-size: 13.5px; color: var(--support); }
@@ -303,7 +304,7 @@ button.btn { width: 100%; border: 0; font: inherit; font-size: 15.5px; font-weig
   gap: 8px;
 }
 .channel {
-  width: clamp(38px, 11.6vw, 44px);
+  width: clamp(38px, calc(11.6 * var(--vw)), 44px);
   aspect-ratio: 1;
   border-radius: 999px;
   background: var(--blue);
@@ -328,6 +329,30 @@ button.btn { width: 100%; border: 0; font: inherit; font-size: 15.5px; font-weig
 </style>
 </head>
 <body>
+<script>
+(function () {
+  // A domain that shows this page inside a frame (masked forwarding) makes phones lay it
+  // out about 980px wide and shrink it. When that happens, scale the page back up to the
+  // phone's real width and hand the layout the real screen size.
+  var root = document.documentElement;
+  function fit() {
+    var framed;
+    try { framed = window.top !== window.self; } catch (e) { framed = true; }
+    root.style.zoom = '';
+    root.style.removeProperty('--vw');
+    root.style.removeProperty('--vh');
+    var w = window.innerWidth, h = window.innerHeight, k = w / screen.width;
+    if (framed && screen.width < 600 && k > 1.4) {
+      root.style.zoom = k;
+      root.style.setProperty('--vw', (w / k / 100) + 'px');
+      root.style.setProperty('--vh', (h / k / 100) + 'px');
+    }
+  }
+  fit();
+  window.addEventListener('resize', fit);
+})();
+</script>
+
 <div class="top">
   <svg class="wave" viewBox="0 0 1280 240" preserveAspectRatio="none" aria-hidden="true">
     <path class="band" d="M0 90 C 213 30, 427 30, 640 90 S 1067 150, 1280 90 L 1280 170 C 1067 230, 853 230, 640 170 S 213 110, 0 170 Z"></path>
